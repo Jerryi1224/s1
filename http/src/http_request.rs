@@ -8,7 +8,7 @@ pub enum Method {
 }
 
 impl From<&str> for Method {
-    fn from(s: &str) -> Method {
+    fn from(s: &str) -> Self {
         match s {
             "GET" => Method::Get,
             "POST" => Method::Post,
@@ -25,7 +25,7 @@ pub enum Version {
 }
 
 impl From<&str> for Version {
-    fn from(s: &str) -> Version {
+    fn from(s: &str) -> Self {
         match s {
             "HTTP/1.1" => Version::V1_1,
             _ => Version::Uninitialized,
@@ -121,12 +121,7 @@ mod tests {
 
     #[test]
     fn test_read_http() {
-        let s: String = String::from("GET /greeting HTTP/1.1\
-        Host: localhost:3000\
-        User-Agent: curl/7.71.1\
-        Accept: */*\
-        \
-        ");
+        let s: String = String::from("GET /greeting HTTP/1.1\r\nHost: localhost:3000\r\nUser-Agent: curl/7.71.1\r\nAccept: */*\r\n\r\n");
         let req: HttpRequest = s.into();
         assert_eq!(Method::Get, req.method);
         assert_eq!(Version::V1_1, req.version);
