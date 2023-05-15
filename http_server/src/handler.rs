@@ -75,7 +75,7 @@ impl Handler for WebServiceHandler {
     fn handle(req: &HttpRequest) -> HttpResponse {
         let http::http_request::Resource::Path(s) = &req.resource;
         let route: Vec<&str> = s.split("/").collect();
-
+        // localhost:3000/api/shipping/orders
         match route[2] {
             "shipping" if route.len() > 2 && route[3] == "orders" => {
                 let body = Some(serde_json::to_string(&Self::load_json()).unwrap());
