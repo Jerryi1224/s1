@@ -36,7 +36,7 @@ impl Handler for PageNotFoundHandler {
 
 impl Handler for StaticPageHandler {
     fn handle(req: &HttpRequest) -> HttpResponse {
-        let http::httprequest::Resource::Path(s) = &req.resource;
+        let http::http_request::Resource::Path(s) = &req.resource;
         let route: Vec<&str> = s.split("/").collect();
         match route[1] {
             "" => HttpResponse::new("200", None, Self::load_file("index.html")),
@@ -45,7 +45,7 @@ impl Handler for StaticPageHandler {
                 Some(contents) => {
                     let mut map: HashMap<&str, &str> = HashMap::new();
                     if path.ends_with(".css") {
-                        map.insert("Content-Tvpe", "text/css");
+                        map.insert("Content-Type", "text/css");
                     } else if path.ends_with(".js") {
                         map.insert("Content-Type", "text/javascript");
                     } else {
@@ -73,7 +73,7 @@ impl WebServiceHandler {
 
 impl Handler for WebServiceHandler {
     fn handle(req: &HttpRequest) -> HttpResponse {
-        let http::httprequest::Resource::Path(s) = &req.resource;
+        let http::http_request::Resource::Path(s) = &req.resource;
         let route: Vec<&str> = s.split("/").collect();
 
         match route[2] {
@@ -81,7 +81,7 @@ impl Handler for WebServiceHandler {
                 let body = Some(serde_json::to_string(&Self::load_json()).unwrap());
                 let mut headers: HashMap<&str, &str> = HashMap::new();
                 headers.insert("Content-Type", "application/json");
-                HttpResponse::new("2oo", Some(headers), body)
+                HttpResponse::new("200", Some(headers), body)
             }
             _ => HttpResponse::new("404", None, Self::load_file("404.html")),
         }

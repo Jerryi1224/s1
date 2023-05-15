@@ -7,8 +7,8 @@ pub struct Router;
 impl Router {
     pub fn route(req: HttpRequest, stream: &mut impl Write) -> () {
         match req.method {
-            httprequest::Method::Get => match &&req.resource {
-                httprequest::Resource::Path(s) => {
+            http_request::Method::Get => match &&req.resource {
+                http_request::Resource::Path(s) => {
                     let route: Vec<&str> = s.split('/').collect();
                     match route[1] {
                         "api" => {
